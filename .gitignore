@@ -2,9 +2,9 @@
 .DS_Store
 /build/
 /DerivedData/
-*.xcodeproj/project.xcworkspace
-*.xcodeproj/xcuserdata/
+*.xcodeproj/*
 *.xcworkspace/xcuserdata/
+LocateCursor.xcodeproj/project.pbxproj
 
 # Swift Package Manager
 .build/
@@ -24,3 +24,6 @@ fastlane/test_output
 
 # Playgrounds
 *.playground
+
+.gitignore
+*.xcuserstate
