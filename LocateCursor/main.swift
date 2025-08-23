@@ -29,18 +29,49 @@ struct Config: Codable {
 // MARK: - Configuration Loader
 class ConfigLoader {
     func loadConfig() -> Config? {
-        guard let url = Bundle.main.url(forResource: "locatecursor", withExtension: "json") else {
-            print("locatecursor.json not found")
-            return nil
-        }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            return try decoder.decode(Config.self, from: data)
-        } catch {
-            print("Error loading or decoding config: \(error)")
-            return nil
+        if let url = Bundle.main.url(forResource: "locatecursor", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                return try decoder.decode(Config.self, from: data)
+            } catch {
+                print("Error loading or decoding config: \(error)")
+                return nil
+            }
+        } else {
+            print("Warning: locatecursor.json not found. Using default configuration.")
+            return Config(
+                default: PresetConfig(
+                    duration: 1,
+                    screenOpacity: 0.5,
+                    circle: CircleConfig(
+                        radius: 80,
+                        opacity: 0.0,
+                        color: "clear",
+                        border: BorderConfig(width: 2, color: "white")
+                    )
+                ),
+                presentation: PresetConfig(
+                    duration: 0,
+                    screenOpacity: 0.0,
+                    circle: CircleConfig(
+                        radius: 80,
+                        opacity: 0.2,
+                        color: "yellow",
+                        border: BorderConfig(width: 0, color: "white")
+                    )
+                ),
+                simple: PresetConfig(
+                    duration: 5,
+                    screenOpacity: 0,
+                    circle: CircleConfig(
+                        radius: 100,
+                        opacity: 0.5,
+                        color: "red",
+                        border: BorderConfig(width: 5, color: "yellow")
+                    )
+                )
+            )
         }
     }
 }
